@@ -88,9 +88,9 @@ function _hydro_prompt --on-event fish_prompt
 
 
         command git rev-list --walk-reflogs --count refs/stash 2>/dev/null | read stash_count 
-        if test -n \"\$stash_count\"
-            test \"\$stash_count\" -eq 1 && set stash \" $hydro_symbol_git_stash\"
-            test \"\$stash_count\" -gt 1 && set stash \" $hydro_symbol_git_stash\$stash_count\"
+        if test -n \"\$stash_count\" && test \"\$stash_count\" -gt 0
+            set stash \" $hydro_symbol_git_stash\"
+            test \"$hydro_stash_count\" = true && test \"\$stash_count\" -gt 1 && set stash \"\$stash\$stash_count\"
         end
 
         for fetch in $hydro_fetch false
@@ -151,4 +151,5 @@ set --query hydro_symbol_git_behind || set --global hydro_symbol_git_behind ↓
 set --query hydro_symbol_git_stash || set --global hydro_symbol_git_stash ≡
 set --query hydro_dirty_count || set --global hydro_dirty_count false
 set --query hydro_multiline || set --global hydro_multiline false
+set --query hydro_stash_count || set --global hydro_stash_count false
 set --query hydro_cmd_duration_threshold || set --global hydro_cmd_duration_threshold 1000
